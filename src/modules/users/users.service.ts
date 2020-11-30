@@ -14,8 +14,7 @@ export class UsersService {
 
     async findOne(id): Promise<User> {
         return await this.userRepository.findOne({
-            // where: { id },
-            // include: [{ model: User, attributes: { exclude: ['password'] } }],
+            where: { id }
         });
     }
 
@@ -24,13 +23,7 @@ export class UsersService {
     }
 
     async update(id, data) {
-        console.log("ggggggg",id);
-        console.log("hhhhhhhh",data);
-        // return await this.userRepository.update({ ...data }, { where: { id }, returning: true });
-        const [numberOfAffectedRows, [updatedUser]] = await this.userRepository.update(data, { where: { id }, returning: true });
-        console.log("numberOfAffectedRows",numberOfAffectedRows);
-        console.log("updatedUser",updatedUser);
-        
+        const [numberOfAffectedRows, [updatedUser]] = await this.userRepository.update({...data}, { where: { id }});
         return { numberOfAffectedRows, updatedUser };
     }
 
