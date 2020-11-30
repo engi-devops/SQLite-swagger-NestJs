@@ -1,8 +1,6 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
-
 @Table
 export class User extends Model<User> {
-
     @Column({
         type: DataType.STRING,
         allowNull: false,
@@ -29,9 +27,9 @@ export class User extends Model<User> {
     tags: string;
 
     @Column({
-    type: DataType.STRING,
-    defaultValue: '0',
-    allowNull: false,
+        type: DataType.STRING,
+        defaultValue: '0',
+        allowNull: false,
     })
     resourceOrNonResource: string; // if resourceOrNonResource = '0' means 'Resource Owner User', if  resourceOrNonResource = '1' means 'Non-Resource Owner user'
 }

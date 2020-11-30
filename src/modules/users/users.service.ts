@@ -42,7 +42,6 @@ export class UsersService {
     }
 
     async remove(id,res) {
-        // return await this.userRepository.destroy({ where: { id } });
         const data = await this.userRepository.destroy({ where: { id } });
         return res.status(200).send({
             code: 200,
@@ -52,4 +51,15 @@ export class UsersService {
         });
     }
 
+    async getalldata(res): Promise<User> {
+        const users = await this.userRepository.findAll();
+        const alluserdata = JSON.parse(JSON.stringify(users));
+        
+        return res.status(200).send({
+            code: 200,
+            message: 'View Details Successfully',
+            data: alluserdata,
+            error: [],
+        });
+    }
 }
