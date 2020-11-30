@@ -8,18 +8,26 @@ import { USER_REPOSITORY } from '../../core/constants';
 export class UsersService {
     constructor(@Inject(USER_REPOSITORY) private readonly userRepository: typeof User) { }
 
-    async create(user: UserDto): Promise<User> {
-        return await this.userRepository.create<User>(user);
-    }
-
-    async findOne(id): Promise<User> {
-        return await this.userRepository.findOne({
-            where: { id }
+    async create(user: UserDto,res): Promise<User> {
+        const createData = await this.userRepository.create<User>(user);
+        return res.status(201).send({
+            code: 201,
+            message: 'Created Successfully',
+            data: createData,
+            error: [],
         });
     }
 
-    async delete(id, userId) {
-        return await this.userRepository.destroy({ where: { id, userId } });
+    async findOne(id,res): Promise<User> {
+        const data =  await this.userRepository.findOne({
+            where: { id },
+        });
+        return res.status(200).send({
+            code: 200,
+            message: 'View Details Successfully',
+            data: data,
+            error: [],
+        });
     }
 
     async update(id, data) {
@@ -27,12 +35,15 @@ export class UsersService {
         return { numberOfAffectedRows, updatedUser };
     }
 
-    async findOneByEmail(email: string): Promise<User> {
-        return await this.userRepository.findOne<User>({ where: { email } });
-    }
-
-    async findOneById(id: number): Promise<User> {
-        return await this.userRepository.findOne<User>({ where: { id } });
+    async remove(id,res) {
+        // return await this.userRepository.destroy({ where: { id } });
+        const data = await this.userRepository.destroy({ where: { id } });
+        return res.status(200).send({
+            code: 200,
+            message: 'Successfully deleted',
+            data: [],
+            error: [],
+        });
     }
 
 }
