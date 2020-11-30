@@ -23,14 +23,11 @@ export class UsersController {
 
     @Put(':id')
     async update(@Param('id') id: number, @Body() user: UserDto, @Request() req): Promise<UserEntity> {
-        console.log("idd",id);
-        console.log("user",user);
         
-        // return await this.usersService.update(id, user);
-        const { updatedUser } = await this.usersService.update(id, user);
-        // if (numberOfAffectedRows === 0) {
-        //     throw new NotFoundException('This User doesn\'t exist');
-        // }
+        const { numberOfAffectedRows, updatedUser } = await this.usersService.update(id, user);
+        if (numberOfAffectedRows === 0) {
+            throw new NotFoundException('This User doesn\'t exist');
+        }
         return updatedUser;
     }
 
@@ -38,7 +35,7 @@ export class UsersController {
     async remove(@Param('id') id: number, @Request() req, @Response() res) {
         const deleted = await this.usersService.remove(id, res);
         if (deleted === 0) {
-            throw new NotFoundException('This Post doesn\'t exist');
+            throw new NotFoundException('This User doesn\'t exist');
         }
         return deleted
     }
