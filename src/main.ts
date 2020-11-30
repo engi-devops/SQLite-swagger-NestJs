@@ -1,13 +1,13 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module';
-import { ValidateInputPipe } from './core/pipes/validate.pipe';
 
 async function nestJsSQLiteApplication() {
   const app = await NestFactory.create(AppModule);
 
   // handle all user input validation globally
-  app.useGlobalPipes(new ValidateInputPipe());
+  app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
 
   const port = 3000;
