@@ -17,7 +17,6 @@ export class UsersController {
         return post;
     }
 
-    // @UseGuards(AuthGuard('jwt'))
     @Post('create')
     @UseInterceptors(fileStorage)
     async create(@UploadedFile() file,@Body() user: UserDto, @Request() req,@Response() res): Promise<UserEntity> {
@@ -27,7 +26,6 @@ export class UsersController {
         return await this.usersService.create(user,res);
     }
 
-    // @UseGuards(AuthGuard('jwt'))
     @Put(':id')
     async update(@Param('id') id: number, @Body() user: UserDto, @Request() req): Promise<UserEntity> {
         
@@ -38,7 +36,6 @@ export class UsersController {
         return updatedUser;
     }
 
-    // @UseGuards(AuthGuard('jwt'))
     @Delete(':id/delete')
     async remove(@Param('id') id: number, @Request() req, @Response() res) {
         const deleted = await this.usersService.remove(id, res);
@@ -46,5 +43,10 @@ export class UsersController {
             throw new NotFoundException('This User doesn\'t exist');
         }
         return deleted
+    }
+
+    @Get('/getalldata')
+    async getalldata(@Response() res) {
+        return this.usersService.getalldata(res);
     }
 }
