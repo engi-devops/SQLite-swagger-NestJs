@@ -12,6 +12,28 @@ export class UsersService {
         return await this.userRepository.create<User>(user);
     }
 
+    async findOne(id): Promise<User> {
+        return await this.userRepository.findOne({
+            // where: { id },
+            // include: [{ model: User, attributes: { exclude: ['password'] } }],
+        });
+    }
+
+    async delete(id, userId) {
+        return await this.userRepository.destroy({ where: { id, userId } });
+    }
+
+    async update(id, data) {
+        console.log("ggggggg",id);
+        console.log("hhhhhhhh",data);
+        // return await this.userRepository.update({ ...data }, { where: { id }, returning: true });
+        const [numberOfAffectedRows, [updatedUser]] = await this.userRepository.update(data, { where: { id }, returning: true });
+        console.log("numberOfAffectedRows",numberOfAffectedRows);
+        console.log("updatedUser",updatedUser);
+        
+        return { numberOfAffectedRows, updatedUser };
+    }
+
     async findOneByEmail(email: string): Promise<User> {
         return await this.userRepository.findOne<User>({ where: { email } });
     }
