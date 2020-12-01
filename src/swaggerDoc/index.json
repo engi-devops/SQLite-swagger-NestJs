@@ -47,16 +47,16 @@
            "consumes": [
             "multipart/form-data"
           ],
-          "produces": [
-            "application/json"
-          ],
            "parameters":[
-            {
-              "name": "user",
-              "in": "body",
-              "description": "Users with new values of properties",
-              "schema": {
-                "properties":{
+            
+          ],
+          "requestBody":{
+            "required":true,
+            "content":{
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "userName": {
                       "type": "string"
                   },
@@ -66,19 +66,20 @@
                   "tags": {
                     "type": "string"
                   },
-                  "resourceOrNonResource": {
+                  "IsResourceOwner": {
                     "type": "string"
+                  },
+                    "image": {
+                      "type": "array",
+                      "items": {
+                          "type": "file"
+                      }
+                    }
                   }
                 }
               }
-            },  
-            {
-              "name": "image",
-              "in": "formData",
-              "description": "image to upload",
-              "type": "file"
             }
-          ],
+         },
            "responses":{
               "201":{
                  "description":""
@@ -86,22 +87,48 @@
            }
         }
      },
-     "/users/{id}/update":{
+     "/users/{id}":{
         "put":{
            "operationId":"UserController_update",
            "parameters":[
-              
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of user that we want to find",
+              "type": "string"
+            }
            ],
            "requestBody":{
-              "required":true,
-              "content":{
-                 "application/json":{
-                    "schema":{
-                       "$ref":"#/components/schemas/User"
+            "required":true,
+            "content":{
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userName": {
+                      "type": "string"
+                  },
+                  "email": {
+                      "type": "string"
+                  },
+                  "tags": {
+                    "type": "string"
+                  },
+                  "IsResourceOwner": {
+                    "type": "string"
+                  },
+                    "image": {
+                      "type": "array",
+                      "items": {
+                          "type": "file"
+                      }
                     }
-                 }
+                  }
+                }
               }
-           },
+            }
+         },
            "responses":{
               "200":{
                  "description":""
@@ -113,11 +140,17 @@
         "delete":{
            "operationId":"UserController_delete",
            "parameters":[
-              
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of user that we want to find",
+              "type": "string"
+            }
            ],
            "responses":{
               "200":{
-                 "description":""
+                 "description":"Record deleted Successfully"
               }
            }
         }
