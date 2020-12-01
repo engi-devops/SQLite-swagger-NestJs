@@ -2,7 +2,9 @@ import { Controller, Get, Post, Put, Delete, Param, Body, NotFoundException, Req
 import { UsersService } from './users.service';
 import { User as UserEntity } from './user.entity';
 import { UserDto } from './dto/user.dto';
-import { fileStorage } from '../../utils/index';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { editFileName, imageFileFilter } from '../../utils/index';
+import { diskStorage } from 'multer';
 
 @Controller('users')
 export class UsersController {
@@ -18,13 +20,28 @@ export class UsersController {
     }
 
     @Post('create')
-    @UseInterceptors(fileStorage)
+    @UseInterceptors(
+        FileInterceptor('image', {
+        storage: diskStorage({
+            destination: './upload',
+            filename: editFileName,
+        }),
+        fileFilter: imageFileFilter,
+        }),
+    )
     async create(@UploadedFile() file,@Body() user: UserDto, @Request() req,@Response() res): Promise<UserEntity> {
-        console.log("files",file);
-        
-        // user.image = files.image[0].originalname;
-        return await this.usersService.create(user,res);
+        const response = {
+            originalname: file.originalname,
+            filename: file.filename,
+        };
+        const obj2 = { image : response.filename }
+        let merged = { ...user, ...obj2 };
+        // console.log('merged :>> ', merged);
+        // return
+        return await this.usersService.create(merged,res);
     }
+
+
 
     @Put(':id')
     async update(@Param('id') id: number, @Body() user: UserDto, @Request() req): Promise<UserEntity> {

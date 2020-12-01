@@ -10,8 +10,8 @@ export class UserDto {
     readonly email: string;
 
     @IsNotEmpty()
-    readonly image: string;
+    readonly tags: string;
 
     @IsNotEmpty()
-    readonly tags: string;
+    readonly resourceOrNonResource: string;
 }
