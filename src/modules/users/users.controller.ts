@@ -73,4 +73,9 @@ export class UsersController {
     async getalldata(@Response() res) {
         return this.usersService.getalldata(res);
     }
+
+    @Post('/filter')
+    async filter( @Request() req, @Response() res) {
+        return this.usersService.filter(req, res);
+    }
 }

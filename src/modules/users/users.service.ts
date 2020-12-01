@@ -1,5 +1,5 @@
 import { Injectable, Inject, UseInterceptors } from '@nestjs/common';
-
+const { Op } = require("sequelize");
 import { User } from './user.entity';
 import { UserDto } from './dto/user.dto';
 import { USER_REPOSITORY } from '../../core/constants';
@@ -10,7 +10,7 @@ export class UsersService {
 
     async create(user: UserDto, res): Promise<User> {
         
-        if(user.IsResourceOwner == '1'){
+        if(user.IsResourceOwner == 'true'){
             let tagData:any = user.tags.split(",");
             if(tagData.length > 10){
                 return res.status(201).send({
@@ -64,6 +64,26 @@ export class UsersService {
         return res.status(200).send({
             code: 200,
             message: 'View Details Successfully',
+            data: alluserdata,
+            error: [],
+        });
+    }
+
+    async filter(req,res): Promise<User> {
+        let searchData = req.body.search;
+        const users = await this.userRepository.findAll({
+            where:{
+                [Op.or]:[
+                  {userName:{ [Op.like]: '%' + searchData + '%' }},
+                  {email:{ [Op.like]: '%' + searchData + '%' }},
+                ]
+            }
+          })
+        const alluserdata = JSON.parse(JSON.stringify(users));
+        
+        return res.status(200).send({
+            code: 200,
+            message: 'Filtered Data',
             data: alluserdata,
             error: [],
         });
