@@ -2,7 +2,7 @@ import { Controller, Get, Post, Put, Delete, Param, Body, NotFoundException, Req
 import { UsersService } from './users.service';
 import { User as UserEntity } from './user.entity';
 import { UserDto } from './dto/user.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { editFileName, imageFileFilter } from '../../utils/index';
 import { diskStorage } from 'multer';
 
@@ -19,9 +19,31 @@ export class UsersController {
         return post;
     }
 
+    // @Post('create')
+    // @UseInterceptors(
+    //     FileInterceptor('image', {
+    //     storage: diskStorage({
+    //         destination: './upload',
+    //         filename: editFileName,
+    //     }),
+    //     fileFilter: imageFileFilter,
+    //     }),
+    // )
+    // async create(@UploadedFile() file,@Body() user: UserDto, @Request() req,@Response() res): Promise<UserEntity> {
+    //     const response = {
+    //         originalname: file.originalname,
+    //         filename: file.filename,
+    //     };
+    //     const obj2 = { image : response.filename }
+    //     let merged = { ...user, ...obj2 };
+    //     // console.log('merged :>> ', merged);
+    //     // return
+    //     return await this.usersService.create(merged,res);
+    // }
+
     @Post('create')
     @UseInterceptors(
-        FileInterceptor('image', {
+        FilesInterceptor('image', 200000, {
         storage: diskStorage({
             destination: './upload',
             filename: editFileName,
@@ -29,18 +51,21 @@ export class UsersController {
         fileFilter: imageFileFilter,
         }),
     )
-    async create(@UploadedFile() file,@Body() user: UserDto, @Request() req,@Response() res): Promise<UserEntity> {
-        const response = {
+    async uploadMultipleFiles(@UploadedFiles() files) {
+        const response = [];
+        // console.log('file :>> ', files);
+        // return
+        files.forEach(file => {
+        const fileReponse = {
             originalname: file.originalname,
             filename: file.filename,
         };
-        const obj2 = { image : response.filename }
-        let merged = { ...user, ...obj2 };
-        // console.log('merged :>> ', merged);
-        // return
-        return await this.usersService.create(merged,res);
+            response.push(fileReponse.filename);
+        });
+        console.log('response :>> ', response);
+        return
+        return response;
     }
-
 
 
     @Put(':id')
