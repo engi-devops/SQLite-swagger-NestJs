@@ -65,7 +65,7 @@ export class UsersController {
             userName: user.userName,
             email: user.email,
             tags: user.tags,
-            resourceOrNonResource: user.resourceOrNonResource,
+            IsResourceOwner: user.IsResourceOwner,
             image : response
         }
         return await this.usersService.create(userDetails,res);
