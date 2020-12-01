@@ -17,7 +17,8 @@ async function nestJsSQLiteApplication() {
   .addTag('users')
   .build();
 const document = SwaggerModule.createDocument(app, options);
-SwaggerModule.setup('api', app, swaggerDoc );
+SwaggerModule.setup('api-docs', app, swaggerDoc );
+
   const port = 3000;
 
   await app.listen(port, () =>

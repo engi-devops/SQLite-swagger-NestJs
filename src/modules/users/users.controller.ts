@@ -19,28 +19,6 @@ export class UsersController {
         return post;
     }
 
-    // @Post('create')
-    // @UseInterceptors(
-    //     FileInterceptor('image', {
-    //     storage: diskStorage({
-    //         destination: './upload',
-    //         filename: editFileName,
-    //     }),
-    //     fileFilter: imageFileFilter,
-    //     }),
-    // )
-    // async create(@UploadedFile() file,@Body() user: UserDto, @Request() req,@Response() res): Promise<UserEntity> {
-    //     const response = {
-    //         originalname: file.originalname,
-    //         filename: file.filename,
-    //     };
-    //     const obj2 = { image : response.filename }
-    //     let merged = { ...user, ...obj2 };
-    //     // console.log('merged :>> ', merged);
-    //     // return
-    //     return await this.usersService.create(merged,res);
-    // }
-
     @Post('create')
     @UseInterceptors(
         FilesInterceptor('image', 200000, {
