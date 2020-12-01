@@ -1,0 +1,126 @@
+{
+  "openapi":"3.0.0",
+  "info":{
+     "title":"User",
+     "description":"The users API description",
+     "version":"1.0",
+     "contact":{
+        
+     }
+  },
+  "servers":[
+     
+  ],
+  "components":{
+     "schemas":{
+        "User":{
+           "type":"object",
+           "properties":{
+              
+           }
+        }
+     }
+  },
+  "paths":{
+     "/users/{id}/view":{
+        "get":{
+           "operationId":"AppController_getHello",
+           "parameters":[
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of user that we want to find",
+              "type": "string"
+            }
+           ],
+           "responses":{
+              "200":{
+                 "description":"View User Details Successfully"
+              }
+           }
+        }
+     },
+     "/users/create":{
+        "post":{
+           "operationId":"UserController_create",
+           "consumes": [
+            "multipart/form-data"
+          ],
+          "produces": [
+            "application/json"
+          ],
+           "parameters":[
+            {
+              "name": "user",
+              "in": "body",
+              "description": "Users with new values of properties",
+              "schema": {
+                "properties":{
+                    "userName": {
+                      "type": "string"
+                  },
+                  "email": {
+                      "type": "string"
+                  },
+                  "tags": {
+                    "type": "string"
+                  },
+                  "resourceOrNonResource": {
+                    "type": "string"
+                  }
+                }
+              }
+            },  
+            {
+              "name": "image",
+              "in": "formData",
+              "description": "image to upload",
+              "type": "file"
+            }
+          ],
+           "responses":{
+              "201":{
+                 "description":""
+              }
+           }
+        }
+     },
+     "/users/{id}/update":{
+        "put":{
+           "operationId":"UserController_update",
+           "parameters":[
+              
+           ],
+           "requestBody":{
+              "required":true,
+              "content":{
+                 "application/json":{
+                    "schema":{
+                       "$ref":"#/components/schemas/User"
+                    }
+                 }
+              }
+           },
+           "responses":{
+              "200":{
+                 "description":""
+              }
+           }
+        }
+     },
+     "/users/{id}/delete":{
+        "delete":{
+           "operationId":"UserController_delete",
+           "parameters":[
+              
+           ],
+           "responses":{
+              "200":{
+                 "description":""
+              }
+           }
+        }
+     }
+  }
+}
