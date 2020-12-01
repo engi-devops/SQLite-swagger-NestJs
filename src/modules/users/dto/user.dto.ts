@@ -13,5 +13,5 @@ export class UserDto {
     readonly tags: string;
 
     @IsNotEmpty()
-    readonly resourceOrNonResource: string;
+    readonly IsResourceOwner: string;
 }
