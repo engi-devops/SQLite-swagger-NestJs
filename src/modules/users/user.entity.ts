@@ -15,7 +15,7 @@ export class User extends Model<User> {
     email: string;
 
     @Column({
-        type: DataType.STRING,
+        type: DataType.ARRAY(DataType.JSON),
         allowNull: false,
     })
     image: string;
