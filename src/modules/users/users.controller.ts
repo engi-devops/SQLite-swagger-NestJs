@@ -53,12 +53,6 @@ export class UsersController {
     )
     async create(@UploadedFiles() files, @Body() user: UserDto, @Request() req, @Response() res): Promise<UserEntity> {
         const response = [];
-<<<<<<< HEAD
-=======
-        // let filedata;
-        // console.log('file :>> ', files);
-        // return
->>>>>>> be3e0dc0abdaade0538cfcf7c295c0b76e184489
         files.forEach(file => {
             const fileReponse = {
                 originalname: file.originalname,
