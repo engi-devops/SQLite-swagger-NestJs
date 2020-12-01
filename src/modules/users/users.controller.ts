@@ -44,27 +44,39 @@ export class UsersController {
     @Post('create')
     @UseInterceptors(
         FilesInterceptor('image', 200000, {
-        storage: diskStorage({
-            destination: './upload',
-            filename: editFileName,
-        }),
-        fileFilter: imageFileFilter,
+            storage: diskStorage({
+                destination: './upload',
+                filename: editFileName,
+            }),
+            fileFilter: imageFileFilter,
         }),
     )
-    async uploadMultipleFiles(@UploadedFiles() files) {
+    async create(@UploadedFiles() files, @Body() user: UserDto, @Request() req, @Response() res): Promise<UserEntity> {
         const response = [];
+        // let filedata;
         // console.log('file :>> ', files);
         // return
         files.forEach(file => {
-        const fileReponse = {
-            originalname: file.originalname,
-            filename: file.filename,
-        };
+            const fileReponse = {
+                originalname: file.originalname,
+                filename: file.filename,
+            };
             response.push(fileReponse.filename);
         });
-        console.log('response :>> ', response);
-        return
-        return response;
+        
+        let userDetails = {
+            userName: user.userName,
+            email: user.email,
+            tags: user.tags,
+            resourceOrNonResource: user.resourceOrNonResource,
+            image : response
+        }
+
+        console.log('response :>> ', userDetails);
+        // return
+                return await this.usersService.create(userDetails,res);
+
+        // return response;
     }
 
 

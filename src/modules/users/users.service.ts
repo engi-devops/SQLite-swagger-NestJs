@@ -8,15 +8,15 @@ import { USER_REPOSITORY } from '../../core/constants';
 export class UsersService {
     constructor(@Inject(USER_REPOSITORY) private readonly userRepository: typeof User) { }
 
-    // async create(user: UserDto, res): Promise<User> {
-    //     const createData = await this.userRepository.create<User>(user);
-    //     return res.status(201).send({
-    //         code: 201,
-    //         message: 'Created Successfully',
-    //         data: createData,
-    //         error: [],
-    //     });
-    // }
+    async create(user: UserDto, res): Promise<User> {
+        const createData = await this.userRepository.create<User>(user);
+        return res.status(201).send({
+            code: 201,
+            message: 'Created Successfully',
+            data: createData,
+            error: [],
+        });
+    }
 
     async findOne(id,res): Promise<User> {
         const data =  await this.userRepository.findOne({
